@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pastor KC Book Library</title>
+    <meta
+      name="description"
+      content="A quiet, content-first library of downloadable books by Kelechukwu Chukwuebuka Eze."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@10..48,200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="Assets/Styles/index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="layout nav-bar" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Pastor KC Book Library home">
+          <img src="Assets/Images/kc.jpg" alt="KC Eze Ministries logo" />
+        </a>
+        <div class="nav-links">
+          <a href="#library">Books</a>
+          <a href="#author">Author</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="layout hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Free digital library</p>
+            <h1>Faith resources for the next generation</h1>
+            <p>
+              A growing collection of books by Pastor KC Eze for young people,
+              parents, teachers, mentors, ministers, and believers pursuing
+              purpose with conviction.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#library">Browse Books</a>
+              <a class="button button-quiet" href="#author">Meet the Author</a>
+            </div>
+          </div>
+
+          <div class="hero-showcase" aria-label="Featured books">
+            <div class="showcase-book showcase-book-main">
+              <img src="Assets/Images/designed to succeed.jpg" alt="designed to succed book cover" />
+            </div>
+            <div class="showcase-book showcase-book-side">
+              <img
+                src="Assets/Images/bridging the gap.jpg"
+                alt="Bridging the Gap book cover"
+              />
+            </div>
+            <div class="showcase-book showcase-book-small">
+              <img
+                src="Assets/Images/dear mum and dad.jpg"
+                alt="dear mum and dad book cover"
+              />
+            </div>
+            <div class="showcase-note">
+              <strong>Read.</strong>
+              <span>Grow in faith, purpose, and conviction.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="library-section" id="library">
+        <div class="layout">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">The collection</p>
+              <h2>Download a title</h2>
+            </div>
+            <p>
+              Click any book card to read the full description. Use the download
+              button when you are ready to get the book.
+            </p>
+          </div>
+
+          <div class="toolbar" aria-label="Book search and category filters">
+            <label class="search-field">
+              <span>Search books</span>
+              <input
+                id="bookSearch"
+                type="search"
+                placeholder="Search by title, topic, or audience"
+                autocomplete="off"
+              />
+            </label>
+            <div class="filter-group" id="categoryFilters"></div>
+          </div>
+
+          <p class="results-count" id="resultsCount"></p>
+          <div class="book-grid" id="bookGrid"></div>
+          <div class="load-more-wrap">
+            <button class="button button-primary" type="button" id="loadMore">
+              Load More
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="author-section" id="author">
+        <div class="layout author-grid">
+          <div>
+            <p class="eyebrow">About the author</p>
+            <h2>Kelechukwu Chukwuebuka Eze</h2>
+            <p>
+              Kelechukwu Chukwuebuka Eze is the president of KC Eze Ministries,
+              with a vision to raise young people as ministers of the gospel as
+              they excel professionally. He is a missionary to young people with
+              over 18 years of experience and a transformational speaker with a
+              deep passion for teenagers, young adults, and professionals.
+            </p>
+            <p>
+              He also leads The Shift Africa Youths Initiative, hosts Impact
+              Arena, and serves as Team Lead at Youth Missions Global. He is
+              married to Favour Eze, and they are blessed with a son, Blessed.
+            </p>
+          </div>
+          <img
+            src="Assets/Images/authors image.jpg"
+            alt="Kelechukwu Chukwuebuka Eze"
+            class="author-photo"
+          />
+        </div>
+      </section>
+    </main>
+
+    <div
+      class="modal"
+      id="bookModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-backdrop" data-close-modal></div>
+      <article class="modal-panel">
+        <button
+          class="modal-close"
+          type="button"
+          data-close-modal
+          aria-label="Close book details"
+        >
+          &times;
+        </button>
+        <div class="modal-cover" id="modalCover"></div>
+        <div class="modal-content">
+          <p class="eyebrow" id="modalCategory"></p>
+          <h2 id="modalTitle"></h2>
+          <p class="modal-audience" id="modalAudience"></p>
+          <p id="modalDescription"></p>
+          <a class="button button-primary" id="modalDownload" href="#">
+            Download Book
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <footer class="site-footer">
+      <div class="layout footer-inner">
+        <p>Pastor KC Book Library</p>
+        <a href="#library">Back to books</a>
+      </div>
+    </footer>
+
+    <script>
+      const books = [
+        {
+          title: "Anointed to Teach",
+          category: "Teachers",
+          audience: "Teachers, educators, and ministers",
+          cover: "Assets/Images/annointed to teach.jpg",
+          download:
+            "https://drive.google.com/uc/?export=download&id=1wbCwqBd9hflBSrwpa6_2gDF5x0Lyg10j",
+          description:
+            "A call to see teaching as a divine assignment, moving beyond lesson plans and routines into the higher purpose of shaping lives.",
+          fullDescription:
+            "Anointed to Teach is more than a book about classroom instruction. It is a call to see teaching as a divine assignment. Written for teachers, educators, and ministers, this book challenges readers to move beyond lesson plans, salaries, and routines, embracing the higher purpose of shaping lives through the power of God's Word and the guidance of the Holy Spirit. Blending biblical truth, personal experience, and practical insights, it equips teachers to recognize their sacred role as mentors, missionaries, and influencers in every sphere of education. This book will inspire you to teach with passion, impact, and eternal perspective, far beyond the walls of the classroom.",
+        },
+        {
+          title: "Bridging the Gap",
+          category: "Parenting",
+          audience: "Parents, guardians, and mentors",
+          cover: "Assets/Images/bridging the gap.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1_4UkjSBXxFeJt_KTTfSb0JAvt1tS6XrQ",
+          description:
+            "A practical guide for building stronger connections with young people and nurturing lasting trust across generations.",
+          fullDescription:
+            "Bridging the Gap is a timely guide designed to help parents, guardians, and mentors build stronger, healthier connections with today's young people. In a rapidly changing world where generational differences often create tension, this book provides practical wisdom, biblical principles, and real-life insights that break down walls of misunderstanding and foster deeper trust. It equips parents to listen, communicate, and guide with love, transforming strained relationships into thriving ones. Whether you are raising teenagers or walking with young adults, this book will help you nurture faith, values, and lasting bonds across generations.",
+        },
+        {
+          title: "Dear Mum and Dad",
+          category: "Parenting",
+          audience: "Parents, guardians, and mentors",
+          cover: "Assets/Images/dear mum and dad.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1bhYjR-DjZEVAhSg3ZPyV61ZDtCrdZD-j",
+          description:
+            "A heartfelt bridge between parents and their children, revealing what many teenagers wish their parents understood.",
+          fullDescription:
+            "Dear Mum and Dad is a heartfelt bridge between parents and their children. Written from the perspective of young people, this book unveils the unspoken thoughts, silent struggles, and deep desires every teenager wishes their parents could understand. With honesty, empathy, and biblical wisdom, it helps parents see through their children's eyes beyond the silence, attitudes, and confusion into the core of what they truly need: love, guidance, and connection. Whether you are a parent, guardian, or mentor, this book offers practical insights and gentle reminders that will strengthen relationships, deepen communication, and nurture a bond that lasts through the changing seasons of youth.",
+        },
+        {
+          title: "Designed to Succeed",
+          category: "Purpose",
+          audience: "Readers pursuing growth and impact",
+          cover: "Assets/Images/designed to succeed.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1dzCn-L1iAlRk6jQCoMLe3vWDJCvAvgP1",
+          description:
+            "Insights, strategies, and inspiration for personal growth, professional development, prosperity, and impact.",
+          fullDescription:
+            "Success is a universal concept that transcends cultures, boundaries, and time. Designed to Succeed offers insights, strategies, and inspiration for those seeking to become successful in life. Drawing on wisdom, real-life examples, and practical principles, this book touches on personal growth, professional development, financial prosperity, and social impact. At its core, it recognizes that success is not one-size-fits-all. It is deeply personal and unique to each individual, shaped by values, goals, experiences, and most of all, the will and plan of God for each person's life.",
+        },
+        {
+          title: "Fire on the Altar",
+          category: "Ministry",
+          audience: "Youth ministers, mentors, and young believers",
+          cover: "",
+          download:
+            "https://drive.google.com/uc?export=download&id=1Irzo0HdjmgJUCSw5J9byQxwKkjT0EfEm",
+          description:
+            "A passionate call to raise a generation that burns for God and carries His presence into every sphere of life.",
+          fullDescription:
+            "Fire on the Altar: Igniting a Generation through Spirit-Empowered Ministry is a passionate call to raise a generation of young people who burn for God and carry His presence into every sphere of life. In a time when many hearts are distracted, lukewarm, or searching for identity, this book sounds a clear call back to the altar, a place of surrender, consecration, and divine encounter. Drawing from biblical truths and practical ministry experience, it equips youth ministers, mentors, and young believers to cultivate a vibrant spiritual life fueled by the Holy Spirit. It explores how to build and sustain spiritual fire through prayer, the Word, and intentional discipleship, while empowering leaders to ignite that same fire in others.",
+        },
+        {
+          title: "How to Stay Sane in an Insane World",
+          category: "Christian Living",
+          audience: "Believers navigating a noisy world",
+          cover: "Assets/Images/how to stay sane.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=15bGUP0FexUalPIrnyxnBnLv1VlsW2FWr",
+          description:
+            "Practical wisdom for thriving with the right mindset in the middle of pressure, stress, and moral chaos.",
+          fullDescription:
+            "In today's fast-paced, ever-changing world, it can often feel like we are living in an insane reality. From the constant bombardment of bad news and negativity in the media to moral decadence and the overwhelming demands of modern life, it can be a real challenge to maintain sanity and well-being. However, with the right mindset and strategies, it is possible to not just survive but thrive in the midst of societal and global moral chaos. This book teaches practical ways to navigate the pollution in our world without being polluted.",
+        },
+        {
+          title: "Love Me Like This",
+          category: "Relationships",
+          audience: "Couples and relationship-minded readers",
+          cover: "",
+          download:
+            "https://drive.google.com/uc?export=download&id=19PwmlG1yH68BqV-1Zx57lzMxFG_H2Aej",
+          description:
+            "A guide to deeper connection, active listening, vulnerability, trust, and loving in a way your partner can receive.",
+          fullDescription:
+            "Love Me Like This: How to Love the Man or Woman in Your Life Just How They Want to Be Loved is a practical relationship guide for anyone who wants to understand and fulfill a partner's deepest desires and needs. Through relatable anecdotes and powerful insights, it helps readers decode emotions, embrace vulnerability, overcome challenges, and cultivate a stronger connection. From learning how to communicate effectively to practicing active listening, this book offers essential tools for building a strong foundation of trust, love, and mutual understanding.",
+        },
+        {
+          title: "Angelic Ministry",
+          category: "Spiritual Growth",
+          audience: "Believers studying angelic assistance",
+          cover: "Assets/Images/angelic ministry.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1q4l_GQhgPFvtUpbFe_O9VkiVy8T4GlZD",
+          description:
+            "A teaching resource on angels, angelic assistance, deliverance, and keeping Christ at the center.",
+          fullDescription:
+            "Angelic Ministry explores biblical teaching on angels and their place in the life of the believer. It addresses worship of angels, commanding angelic assistance, how angels can be hindered, how they encamp around believers, and the place of angels in service. It also explains that angels are created for service, while believers remain positioned in Christ. The book challenges unbiblical angel consciousness, teaches on different kinds of angels, examines angelic deliverance, and reminds believers that they do not lack assistance while keeping Christ, not angels, at the center.",
+        },
+        {
+          title: "Sex Control",
+          category: "Purity",
+          audience: "Teenagers and young adults",
+          cover: "",
+          download:
+            "https://drive.google.com/uc?export=download&id=12kErH4EIEXejseC1tgiyKln6OfxOlktH",
+          description:
+            "A bold and practical guide to winning the battle for sexual purity through biblical clarity and discipline.",
+          fullDescription:
+            "Sex Control: Winning the Battle for Sexual Purity is a bold, honest, and practical guide for teenagers and young adults who desire to live above sexual pressure in a highly sexualized world. In a culture that normalizes immorality and celebrates compromise, this book brings clarity, truth, and hope. With relatable real talk, sound biblical insight, and actionable strategies, it addresses lust, temptation, peer pressure, emotional cravings, media influence, and secret battles. It goes beyond telling readers what not to do and equips them with tools to take control of desire, renew the mind, and build discipline for purity.",
+        },
+        {
+          title: "Single and Satisfied",
+          category: "Relationships",
+          audience: "Singles seeking purpose and contentment",
+          cover: "Assets/Images/single and satisfied.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1V9UmiW5oAoXQJie-DMkJa142HwfyWKZq",
+          description:
+            "A refreshing guide to maximizing singleness as a season of purpose, growth, fulfillment, and inner joy.",
+          fullDescription:
+            "Single and Satisfied: Maximizing Your Singleness, Enjoying Bliss is a refreshing and empowering guide for anyone who desires to live fully and joyfully in their season of singleness. In a world that often treats singleness as a waiting room for marriage, this book redefines it as a season of purpose, growth, and fulfillment. With practical wisdom, relatable insights, and faith-based truths, it helps readers break free from pressure, comparison, and loneliness, and instead embrace contentment, clarity, and intentional living.",
+        },
+        {
+          title: "Believers' Prayer",
+          category: "Prayer",
+          audience: "Believers growing in prayer",
+          cover: "Assets/Images/belivers prayer.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1FVd8sQBdcAdCBMQmcnD9FnWpN8B2Lk_K",
+          description:
+            "A practical study on prayer, speaking in tongues, intercession, spiritual authority, and praying with the Word.",
+          fullDescription:
+            "Believers' Prayer is a practical study on prayer as an essential part of the believer's life. It explores why prayer is not optional, the place of speaking in tongues, supernatural language, interpretation of tongues, edification, and praying without natural impurities. It also addresses diligence, spiritual authority, praying for ministers, brethren, people in authority, needs, deliverance from adversaries, dealing with unclean spirits, praying in the name of Jesus, rejecting unbelief, and mixing prayer with the Word.",
+        },
+        {
+          title: "Tough Talks for Parents",
+          category: "Parenting",
+          audience: "Parents of teenagers and young adults",
+          cover: "Assets/Images/tough talk.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1EeYpiZ56PYyKpiNSWbU_TwZ47qsZyty_",
+          description:
+            "Clear, compassionate, biblically grounded answers for parents navigating hard questions with young people.",
+          fullDescription:
+            "Parenting teenagers and young adults comes with hard questions about identity, discipline, friendships, faith, choices, and the future. Tough Talks for Parents provides clear, practical, and biblically grounded answers to the issues every parent wrestles with but rarely finds easy to discuss. Written with honesty and compassion, this book equips parents to understand their children better, respond wisely, and build stronger relationships through open communication. It is both a guide and a companion for parents who want to raise grounded, confident, and godly young people in today's complex world.",
+        },
+        {
+          title: "UNLOCKED",
+          category: "Purpose",
+          audience: "Readers ready to break limits",
+          cover: "Assets/Images/unlocked.jpg",
+          download:
+            "https://drive.google.com/uc?export=download&id=1Z8AJWetKaprxlebmdspJUzRaBErwOu5T",
+          description:
+            "A call to rise beyond fear, doubt, past failures, and expectations into identity, potential, and impact.",
+          fullDescription:
+            "UNLOCKED: Breaking Limits, Fulfilling Purpose, Transforming the World is a powerful call to rise beyond invisible barriers that hold many back from becoming all they were created to be. In a world filled with pressure, confusion, and limitations, both real and imagined, this book offers a clear pathway to personal awakening and purposeful living. With practical insights, faith-based principles, and real-life wisdom, UNLOCKED helps readers identify and break free from fear, doubt, past failures, and societal expectations. It challenges readers to discover true identity, embrace God-given potential, and step boldly into a life of meaning and impact.",
+        },
+        {
+          title: "UNSHAKEABLE",
+          category: "Teens",
+          audience: "Parents, mentors, and youth leaders",
+          cover: "",
+          download:
+            "https://drive.google.com/uc?export=download&id=13_VJBDzZyzBl3O3Uo3w0gtc9liXCstAO",
+          description:
+            "A timely guide for building godly teenagers who can stand firm in faith, truth, identity, and conviction.",
+          fullDescription:
+            "In a world where values are constantly changing and truth often feels relative, raising and guiding teenagers to stand firm in their faith can feel overwhelming. UNSHAKEABLE: Building Godly Teens in a Shifting Culture is a timely and practical guide for parents, mentors, youth leaders, and anyone passionate about shaping the next generation. This book speaks directly to the realities teens face today, including pressure, confusion, identity struggles, and cultural influence, while offering clear biblical wisdom to help them remain grounded and unshaken.",
+        },
+      ];
+
+      const initialVisibleCount = 8;
+      const bookGrid = document.querySelector("#bookGrid");
+      const bookSearch = document.querySelector("#bookSearch");
+      const categoryFilters = document.querySelector("#categoryFilters");
+      const resultsCount = document.querySelector("#resultsCount");
+      const loadMoreButton = document.querySelector("#loadMore");
+      const modal = document.querySelector("#bookModal");
+      const modalCover = document.querySelector("#modalCover");
+      const modalCategory = document.querySelector("#modalCategory");
+      const modalTitle = document.querySelector("#modalTitle");
+      const modalAudience = document.querySelector("#modalAudience");
+      const modalDescription = document.querySelector("#modalDescription");
+      const modalDownload = document.querySelector("#modalDownload");
+
+      let activeCategory = "All";
+      let visibleCount = initialVisibleCount;
+      let lastFocusedElement = null;
+
+      function createCover(book) {
+        if (book.cover) {
+          return `<img src="${book.cover}" alt="${book.title} book cover" loading="lazy" />`;
+        }
+
+        return `<div class="cover-placeholder" aria-label="${book.title} cover placeholder">
+          <span>${book.title}</span>
+          <small>Cover coming soon</small>
+        </div>`;
+      }
+
+      function getFilteredBooks() {
+        const query = bookSearch.value.trim().toLowerCase();
+
+        return books.filter((book) => {
+          const searchable =
+            `${book.title} ${book.category} ${book.audience} ${book.description} ${book.fullDescription}`.toLowerCase();
+          const matchesSearch = searchable.includes(query);
+          const matchesCategory =
+            activeCategory === "All" || book.category === activeCategory;
+
+          return matchesSearch && matchesCategory;
+        });
+      }
+
+      function renderBooks() {
+        const filteredBooks = getFilteredBooks();
+        const visibleBooks = filteredBooks.slice(0, visibleCount);
+
+        resultsCount.textContent = `${visibleBooks.length} of ${
+          filteredBooks.length
+        } ${filteredBooks.length === 1 ? "book" : "books"} shown`;
+
+        bookGrid.innerHTML = visibleBooks
+          .map((book) => {
+            const bookIndex = books.indexOf(book);
+
+            return `<article class="book-card" data-book-index="${bookIndex}" tabindex="0" role="button" aria-label="Read details for ${book.title}">
+              <div class="book-cover">
+                ${createCover(book)}
+              </div>
+              <div class="book-details">
+                <div class="book-meta">
+                  <span>${book.category}</span>
+                  <span>${book.audience}</span>
+                </div>
+                <h3>${book.title}</h3>
+                <p>${book.description}</p>
+                <a class="button button-secondary" href="${book.download}" target="_blank" rel="noopener" data-download-link>
+                  Download
+                </a>
+              </div>
+            </article>`;
+          })
+          .join("");
+
+        loadMoreButton.hidden = visibleCount >= filteredBooks.length;
+      }
+
+      function renderFilters() {
+        const categories = ["All", ...new Set(books.map((book) => book.category))];
+
+        categoryFilters.innerHTML = categories
+          .map(
+            (category) => `<button
+              class="filter-button ${category === activeCategory ? "is-active" : ""}"
+              type="button"
+              data-category="${category}"
+            >
+              ${category}
+            </button>`
+          )
+          .join("");
+      }
+
+      function openModal(book) {
+        lastFocusedElement = document.activeElement;
+        modalCover.innerHTML = createCover(book);
+        modalCategory.textContent = book.category;
+        modalTitle.textContent = book.title;
+        modalAudience.textContent = book.audience;
+        modalDescription.textContent = book.fullDescription;
+        modalDownload.href = book.download;
+        modalDownload.setAttribute("target", "_blank");
+        modalDownload.setAttribute("rel", "noopener");
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+        document.querySelector(".modal-close").focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+
+        if (lastFocusedElement) {
+          lastFocusedElement.focus();
+        }
+      }
+
+      function resetBookList() {
+        visibleCount = initialVisibleCount;
+        renderBooks();
+      }
+
+      categoryFilters.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+
+        activeCategory = button.dataset.category;
+        renderFilters();
+        resetBookList();
+      });
+
+      bookSearch.addEventListener("input", resetBookList);
+
+      loadMoreButton.addEventListener("click", () => {
+        visibleCount += initialVisibleCount;
+        renderBooks();
+      });
+
+      bookGrid.addEventListener("click", (event) => {
+        if (event.target.closest("[data-download-link]")) return;
+
+        const card = event.target.closest(".book-card");
+        if (!card) return;
+
+        openModal(books[Number(card.dataset.bookIndex)]);
+      });
+
+      bookGrid.addEventListener("keydown", (event) => {
+        if (event.target.closest("[data-download-link]")) return;
+        if (event.key !== "Enter" && event.key !== " ") return;
+
+        const card = event.target.closest(".book-card");
+        if (!card) return;
+
+        event.preventDefault();
+        openModal(books[Number(card.dataset.bookIndex)]);
+      });
+
+      modal.addEventListener("click", (event) => {
+        if (event.target.closest("[data-close-modal]")) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("is-open")) {
+          closeModal();
+        }
+      });
+
+      renderFilters();
+      renderBooks();
+    </script>
+  </body>
+</html>
